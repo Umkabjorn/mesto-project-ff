@@ -23,7 +23,7 @@ function createCard(name, link, callbackMalbek) {
 }
 
 function deleteItem(templateElement) {
-  templateElement.remove();
+//   templateElement.remove();
 }
 
 initialCards.forEach((n) => {
