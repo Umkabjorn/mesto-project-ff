@@ -17,13 +17,15 @@ function createCard(name, link, callbackMalbek) {
 
   const deleteButton = templateElement.querySelector(".card__delete-button");
 
-  deleteButton.addEventListener("click", callbackMalbek(templateElement));
+  deleteButton.addEventListener("click", callbackMalbek);
 
   return templateElement;
 }
 
-function deleteItem(templateElement) {
-//   templateElement.remove();
+function deleteItem(evt) {
+  const eventTarget = evt.target;
+  eventTarget.setAttribute("disabled", true);
+  eventTarget.parentElement.remove();
 }
 
 initialCards.forEach((n) => {
