@@ -8,16 +8,21 @@
 
 // @todo: Вывести карточки на страницу
 
-function createCard(name, link, callbackMalbek) {
+const template = document.querySelector("#card-template");
+const cardsContainer = document.querySelector(".places__list");
+
+
+function createCard(name, link, alt, callback) {
   const template = document.querySelector("#card-template");
   const templateElement = template.content.cloneNode(true);
 
   templateElement.querySelector(".card__image").src = link;
   templateElement.querySelector(".card__title").textContent = name;
+  templateElement.querySelector(".card__image").alt = alt;
 
   const deleteButton = templateElement.querySelector(".card__delete-button");
 
-  deleteButton.addEventListener("click", callbackMalbek);
+  deleteButton.addEventListener("click", callback);
 
   return templateElement;
 }
@@ -25,10 +30,12 @@ function createCard(name, link, callbackMalbek) {
 function deleteItem(evt) {
   const eventTarget = evt.target;
   eventTarget.setAttribute("disabled", true);
-  eventTarget.parentElement.remove();
+  eventTarget.closest('.places__item').remove();
 }
 
 initialCards.forEach((n) => {
-  const newItem = createCard(n.name, n.link, deleteItem);
-  document.querySelector(".places__list").append(newItem);
+  const newItem = createCard(n.name, n.link, n.alt, deleteItem);
+  cardsContainer.append(newItem);
 });
+
+
