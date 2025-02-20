@@ -15,7 +15,7 @@ const cardsContainer = document.querySelector(".places__list");
 
 const popupProfileButtonOpen = document.querySelector('.profile__edit-button'); 
 const popupProfileButtonClose = document.querySelector('.popup__close');
-const popupProfile = document.querySelector('.popup_type_edit');
+const popupProfile = document.querySelector('.popup');
 
 
 
@@ -48,9 +48,14 @@ initialCards.forEach((n) => {
 
 popupProfileButtonOpen.addEventListener('click', function (evt) {
   evt.preventDefault();
-  popup.classList.add('.popup_is-opened');
+  popupProfile.classList.add('.popup_is-opened');
 });
 
+
+popupProfileButtonClose.addEventListener('click', function () {
+  popupProfile.classList.remove('.popup_is-opened');
+
+})
 
 
 
