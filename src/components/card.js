@@ -1,3 +1,4 @@
+
 function createCard(name, link, alt, callback, likeCallback) {
   const template = document.querySelector("#card-template");
   const templateElement = template.content.cloneNode(true);
@@ -36,12 +37,5 @@ function deleteItem(evt) {
   eventTarget.closest(".places__item").remove();
 }
 
-initialCards.forEach((n) => {
-  const newItem = createCard(n.name, n.link, n.alt, deleteItem, like);
-  cardsContainer.append(newItem);
-});
-
-
-
-// export { createCard };
+export { createCard, like, deleteItem };
 
