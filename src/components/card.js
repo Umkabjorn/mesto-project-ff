@@ -1,5 +1,5 @@
 
-function createCard(name, link, alt, callback, likeCallback, openImageModal) {
+function createCard(name, link, alt, handleDeleteCard, handleLikeCard, openImageModal) {
   const template = document.querySelector("#card-template");
   const templateElement = template.content.cloneNode(true);
 
@@ -13,13 +13,13 @@ function createCard(name, link, alt, callback, likeCallback, openImageModal) {
 
   const deleteButton = templateElement.querySelector(".card__delete-button");
 
-  deleteButton.addEventListener("click", callback);
+  deleteButton.addEventListener("click", handleDeleteCard);
 
   cardImage.addEventListener("click", () => {
     openImageModal(link, alt, name);
   });
 
-  likeCallback(templateElement);
+  handleLikeCard(templateElement);
 
   return templateElement;
 }

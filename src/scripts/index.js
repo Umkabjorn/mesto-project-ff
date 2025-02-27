@@ -13,7 +13,8 @@ import { initialCards } from "../components/cards.js";
 import { createCard, like, deleteItem } from "../components/card.js";
 import {
   openModal,
-  closeModal
+  closeModal,
+  handleModalClose,
 } from "../components/modal.js";
 
 const template = document.querySelector("#card-template");
@@ -53,11 +54,11 @@ const cardUrlInput = document.querySelector(".popup__input_type_url");
 const profileForm = document.querySelector(".popup__form[name='edit-profile']");
 const cardForm = document.querySelector(".popup__form[name='new-place']");
 
-initialCards.forEach((n) => {
+initialCards.forEach((item) => {
   const newItem = createCard(
-    n.name,
-    n.link,
-    n.alt,
+    item.name,
+    item.link,
+    item.alt,
     deleteItem,
     like,
     openImageModal
@@ -73,26 +74,13 @@ function openProfilePopup() {
 
 popupProfileButtonOpen.addEventListener("click", openProfilePopup);
 
-function closeProfilePopup(evt) {
-  if (evt.target === popupProfile || evt.target === popupProfileButtonClose) {
-    closeModal(popupProfile);
-  }
-}
-
-popupProfile.addEventListener("click", closeProfilePopup);
-
-
 cardButtonOpen.addEventListener("click", () => {
   openModal(cardModal);
 });
 
-function closeCardPopup(evt) {
-  if (evt.target === cardModal || evt.target === cardModalClose) {
-    closeModal(cardModal);
-  }
-}
-
-cardModal.addEventListener("click", closeCardPopup);
+popupProfile.addEventListener("click", handleModalClose);
+cardModal.addEventListener("click", handleModalClose);
+imageModal.addEventListener("click", handleModalClose);
 
 function openImageModal(src, alt, caption) {
   imageModalImage.src = src;
@@ -100,24 +88,6 @@ function openImageModal(src, alt, caption) {
   imageModalCaption.textContent = caption;
   openModal(imageModal);
 }
-
-function closeImageModal(evt) {
-  if (evt.target === imageModal || evt.target === imageModalClose) {
-    closeModal(imageModal);
-  }
-}
-
-function handleKeyPress(evt) {
-  if (evt.key === "Escape" || evt.keyCode === 27) {
-    closeModal(cardModal);
-    closeModal(popupProfile);
-    closeModal(imageModal);
-  }
-}
-
-imageModal.addEventListener("click", closeImageModal);
-imageModalClose.addEventListener("click", closeImageModal);
-document.addEventListener("keyup", handleKeyPress);
 
 function handleFormProfileSubmit(evt) {
   evt.preventDefault();

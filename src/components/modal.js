@@ -10,7 +10,7 @@ export function closeModal(modalElement) {
 }
 
 export function handleKeyPress(evt) {
-  if (evt.key === "Escape" || evt.keyCode === 27) {
+  if (evt.key === "Escape") {
     const openedModal = document.querySelector(".popup_is-opened");
     if (openedModal) {
       closeModal(openedModal);
@@ -18,3 +18,11 @@ export function handleKeyPress(evt) {
   }
 }
 
+export function handleModalClose(evt) {
+  if (
+    evt.target === evt.currentTarget ||
+    evt.target.classList.contains("popup__close")
+  ) {
+    closeModal(evt.currentTarget);
+  }
+}
