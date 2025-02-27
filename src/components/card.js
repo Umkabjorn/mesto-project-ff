@@ -1,5 +1,5 @@
 
-function createCard(name, link, alt, callback, likeCallback) {
+function createCard(name, link, alt, callback, likeCallback, openImageModal) {
   const template = document.querySelector("#card-template");
   const templateElement = template.content.cloneNode(true);
 
