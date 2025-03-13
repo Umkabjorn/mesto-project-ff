@@ -58,19 +58,17 @@ const cardUrlInput = document.querySelector(".popup__input_type_url");
 const profileForm = document.querySelector(".popup__form[name='edit-profile']");
 const cardForm = document.querySelector(".popup__form[name='new-place']");
 
-// const inputSelector = document.querySelector('.popup__input');
-// const formElement = document.querySelector('.popup__form');
 
 const validationConfig = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__button',
-  inactiveButtonClass: 'popup__button_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible',
+  inactiveButtonClass: 'popup__button_disabled', 
+  inputErrorClass: 'popup__input_type_error', 
+  errorClass: 'popup__error_visible', 
 };
 
-// enableValidation(validationConfig);
+enableValidation(validationConfig);
 
 initialCards.forEach((item) => {
   const newItem = createCard(
@@ -104,6 +102,8 @@ popupProfile.addEventListener("click", handleModalClose);
 cardModal.addEventListener("click", handleModalClose);
 imageModal.addEventListener("click", handleModalClose);
 
+
+
 function openImageModal(src, alt, caption) {
   imageModalImage.src = src;
   imageModalImage.alt = alt;
@@ -136,4 +136,6 @@ function handleCardFormSubmit(evt) {
 }
 
 cardForm.addEventListener("submit", handleCardFormSubmit);
+
+
 
