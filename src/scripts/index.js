@@ -9,7 +9,6 @@
 // @todo: Вывести карточки на страницу
 
 import "../pages/index.css";
-import { initialCards } from "../components/cards.js";
 import { createCard, like, deleteItem } from "../components/card.js";
 import {
   openModal,
@@ -20,6 +19,8 @@ import {
   enableValidation,
   clearValidation,
 } from "../components/validation.js";
+import { getCards, getProfileInfo } from "../components/api.js";
+
 
 const template = document.querySelector("#card-template");
 const cardsContainer = document.querySelector(".places__list");
@@ -58,6 +59,7 @@ const cardUrlInput = document.querySelector(".popup__input_type_url");
 const profileForm = document.querySelector(".popup__form[name='edit-profile']");
 const cardForm = document.querySelector(".popup__form[name='new-place']");
 
+const currentId = (await getProfileInfo())._id;
 
 const validationConfig = {
   formSelector: '.popup__form',
@@ -68,7 +70,11 @@ const validationConfig = {
   errorClass: 'popup__error_visible', 
 };
 
+
 enableValidation(validationConfig);
+
+
+const initialCards = await getCards();
 
 initialCards.forEach((item) => {
   const newItem = createCard(
@@ -77,7 +83,9 @@ initialCards.forEach((item) => {
     item.alt,
     deleteItem,
     like,
-    openImageModal
+    openImageModal,
+    item.owner._id,
+    currentId
   );
   cardsContainer.append(newItem);
 });

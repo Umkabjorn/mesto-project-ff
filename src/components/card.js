@@ -1,5 +1,5 @@
 
-function createCard(name, link, alt, data, onDelete, handleDeleteCard, handleLikeCard, openImageModal) {
+function createCard(name, link, alt, onDelete, handleDeleteCard, handleLikeCard, openImageModal, owner, currentId) {
   const template = document.querySelector("#card-template");
   const templateElement = template.content.cloneNode(true);
 
@@ -13,11 +13,12 @@ function createCard(name, link, alt, data, onDelete, handleDeleteCard, handleLik
 
   const deleteButton = templateElement.querySelector(".card__delete-button");
 
-  if (data.owner['_id'] === currentUserId) {
+
+  if (owner === currentId) {
     deleteButton.classList.add('card__delete-button_is-active');
     deleteButton.addEventListener('click', () => {
       onDelete({
-        cardId: data['_id'],
+        cardId: cardId,
         cardElement: templateElement,
         buttonElement: deleteButton,
       });
@@ -41,18 +42,18 @@ function like(templateElement, onLike) {
   const cardLikeButton = templateElement.querySelector(".card__like-button");
   const counter = templateElement.querySelector('.card__like-counter');
 
-  if (data.likes.length) {
+  if (likes.length) {
     counter.classList.add('card__like-counter_is-active');
-    counter.textContent = data.likes.length;
+    counter.textContent = likes.length;
   }
 
-  if (data.likes.some((like) => like['_id'] === currentUserId)) {
+  if (likes.some((like) => like['_id'] === currentUserId)) {
     cardLikeButton.classList.add("card__like-button_is-active");
   }
 
   cardLikeButton.addEventListener("click", () => {
     onLike({
-      cardId: data['_id'],
+      cardId: cardId,
       buttonElement: cardLikeButton,
       counterElement: counter,
     });
@@ -63,7 +64,6 @@ function deleteItem(evt) {
   const eventTarget = evt.target;
   eventTarget.setAttribute("disabled", true);
   eventTarget.closest(".places__item").remove();
-  cardElement.remove();
 }
 
 export { createCard, like, deleteItem };

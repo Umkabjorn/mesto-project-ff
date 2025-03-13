@@ -13,7 +13,7 @@ const handleResponse = (response) => {
   return response.json();
 };
 
-const getProfileInfo = () => {
+const getProfileInfo = async () => {
   return fetch(`${config.baseUrl}/users/me`, { headers: config.headers })
     .then(handleResponse)
     .catch((error) => {
@@ -22,7 +22,7 @@ const getProfileInfo = () => {
     });
 };
 
-const getCards = () => {
+const getCards = async () => {
   return fetch(`${config.baseUrl}/cards`, { headers: config.headers })
     .then(handleResponse)
     .catch((error) => {
@@ -86,3 +86,5 @@ const deleteCard = (cardId) => {
         throw error;
         });
        }
+
+export { getCards, getProfileInfo }
