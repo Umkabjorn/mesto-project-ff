@@ -47,7 +47,7 @@ const updateProfile = ({ name, description }) => {
     });
 };
 
-const createCard = ({ name, link }) => {
+const APICreateCard = ({ name, link }) => {
   return fetch(`${config.baseUrl}/cards`, {
     method: "POST",
     headers: config.headers,
@@ -87,4 +87,44 @@ const deleteCard = (cardId) => {
         });
        }
 
-export { getCards, getProfileInfo }
+const likeCard = (cardId) => {
+    return fetch(`${config.baseUrl}/cards/likes/${cardId}`), {
+        method: 'PUT',
+        headers: config.headers,
+    }
+    .then(handleResponse)
+    .catch(error => {
+        console.error('Ошибка при постановке лайка:', error.message);
+        throw error;
+        });
+}
+
+const unlikeCard = (cardId) => {
+    return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+        method: 'DELETE',
+        headers: config.headers,
+    })
+    .then(handleResponse)
+    .catch(error => {
+        console.error('Ошибка при удалении лайка:', error.message);
+        throw error;
+        });
+
+}
+
+const updateAvatar = (url) => {
+    return fetch(`${config.baseUrl}/users/me/avatar`, {
+        method: 'PATCH',
+        headers: config.headers,
+        body: JSON.stringify({
+            avatar: url,
+          }),
+    })
+    .then(handleResponse)
+    .catch(error => {
+        console.error('Ошибка при добавлении аватара:', error.message);
+        throw error;
+        });
+
+}
+export { handleResponse, getProfileInfo, getCards, updateProfile, APICreateCard, getCardLikes, deleteCard, likeCard, unlikeCard, updateAvatar }

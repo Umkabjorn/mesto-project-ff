@@ -1,4 +1,3 @@
-// const validCharsRegex = /^[a-zA-Zа-яА-Я -]+$/;
 
 const hasInvalidInput = (inputList) => {
   return inputList.some((inputElement) => {
@@ -79,12 +78,8 @@ const setEventListeners = (
   inputList.forEach((inputElement) => {
     inputElement.addEventListener("input", () => {
       isValid(formElement, inputElement, inputErrorClass, errorClass);
+      toggleButtonState(inputList, buttonElement, inactiveButtonClass);
     });
-    toggleButtonState(
-      inputList,
-      buttonElement,
-      inactiveButtonClass,
-    );
   });
 };
 
@@ -125,6 +120,7 @@ const clearValidation = (
 ) => {
   const inputList = [...formElement.querySelectorAll(inputSelector)];
   const buttonElement = formElement.querySelector(submitButtonSelector);
+
 
   inputList.forEach((inputElement) => {
     hideInputError(

@@ -7,7 +7,21 @@
   background-size: cover;
   background-position: center;
   margin: 0 29px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+.profile__image:hover {
+  opacity: 0.75;
+}
+
+.profile__image:hover .profile__image-edit {
+  width: 26px;
+  height: 26px;
+  background-image: url(../../../images/pen.svg);
+}
+
 
 @media screen and (max-width: 740px) {
   .profile__image {
