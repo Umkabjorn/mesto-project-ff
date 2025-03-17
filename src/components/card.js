@@ -16,11 +16,6 @@ function createCard(name, link, handleDeleteCard, openImageModal, owner, current
   if (owner === currentId) {
     deleteButton.classList.add('card__delete-button_is-active');
     deleteButton.addEventListener('click', () => {
-      delete({
-        cardId: cardId,
-        cardElement: templateElement,
-        buttonElement: deleteButton,
-      });
     });
   } else {
     deleteButton.remove();
