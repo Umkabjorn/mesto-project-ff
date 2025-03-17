@@ -1,5 +1,14 @@
-
-function createCard(name, link, handleDeleteCard, openImageModal, owner, currentId) {
+function createCard(
+  name,
+  link,
+  handleDeleteCard,
+  likes = [],
+  handleLike,
+  openImageModal,
+  owner,
+  currentId,
+  cardId
+) {
   const template = document.querySelector("#card-template");
   const templateElement = template.content.cloneNode(true);
 
@@ -8,15 +17,29 @@ function createCard(name, link, handleDeleteCard, openImageModal, owner, current
 
   templateElement.querySelector(".card__image").src = link;
   templateElement.querySelector(".card__title").textContent = name;
- 
 
   const deleteButton = templateElement.querySelector(".card__delete-button");
 
+  const likesCount = templateElement.querySelector(".card__like-counter");
+  const likeButton = templateElement.querySelector(".card__like-button");
+
+  likesCount.textContent = likes.length;
+  likeButton.addEventListener('click', () => {
+    handleLike({
+      cardId: cardId,
+      buttonElement: likeButton,
+      counterElement: likesCount,
+    });
+  });
+
+  const isLikedByCurrentUser = likes.some((owner) => owner._id === currentId);
+  if (isLikedByCurrentUser) {
+    likeButton.classList.add("card__like-button_active");
+  }
 
   if (owner === currentId) {
-    deleteButton.classList.add('card__delete-button_is-active');
-    deleteButton.addEventListener('click', () => {
-    });
+    deleteButton.classList.add("card__delete-button_is-active");
+    deleteButton.addEventListener("click", () => {});
   } else {
     deleteButton.remove();
   }
@@ -27,21 +50,19 @@ function createCard(name, link, handleDeleteCard, openImageModal, owner, current
     openImageModal(link, name);
   });
 
-  // handleLikeCard(templateElement);
-
   return templateElement;
 }
 
 function like(templateElement, onLike) {
   const cardLikeButton = templateElement.querySelector(".card__like-button");
-  const counter = templateElement.querySelector('.card__like-counter');
+  const counter = templateElement.querySelector(".card__like-counter");
 
   if (likes.length) {
-    counter.classList.add('card__like-counter_is-active');
+    counter.classList.add("card__like-counter_is-active");
     counter.textContent = likes.length;
   }
 
-  if (likes.some((like) => like['_id'] === currentId)) {
+  if (likes.some((like) => like["_id"] === currentId)) {
     cardLikeButton.classList.add("card__like-button_is-active");
   }
 
@@ -61,4 +82,3 @@ function deleteItem(evt) {
 }
 
 export { createCard, like, deleteItem };
-

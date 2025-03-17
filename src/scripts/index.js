@@ -31,6 +31,10 @@ const cardsContainer = document.querySelector(".places__list");
 const popupProfileButtonOpen = document.querySelector(".profile__edit-button");
 const popupProfileButtonClose = document.querySelector(".popup__close");
 const popupProfile = document.querySelector(".popup_type_edit");
+const deletePopup = document.querySelector(".popup_type_delete");
+const closeDeleteButton = deletePopup.querySelector(".popup__close");
+const deleteForm = document.querySelector('form[name="delete-card"');
+
 
 const cardButtonOpen = document.querySelector(".profile__add-button");
 const cardModal = document.querySelector(".popup_type_new-card");
@@ -97,6 +101,7 @@ const renderLoading = ({ buttonElement, isLoading }) => {
 
 let initialCards = {};
 let profileInfo = {};
+let likes = {};
 
 // Конфигурация валидации
 const validationConfig = {
@@ -114,12 +119,10 @@ enableValidation(validationConfig);
 // Загрузка данных профиля и карточек
 const requests = [getProfileInfo(), getCards()];
 Promise.all(requests)
-.then(([userData, initialCards]) => {
-  const { name, about, avatar, _id: currentId } = userData;
-  localStorage.setItem("profileInfo", JSON.stringify({ name, about, avatar }));
-  // profileInfo = result[0];
-  // initialCards = result[1];
-   profileData({ name, about, avatar });
+.then((result) => {
+  profileInfo = result[0];
+  initialCards = result[1];
+  profileData(profileInfo);
   
 
   initialCards.forEach((item) => {
@@ -127,10 +130,12 @@ Promise.all(requests)
       item.name,
       item.link,
       deleteItem,
-      // like,
+      item.likes,
+      like,
       openImageModal,
       item.owner._id,
-      currentId
+      profileInfo._id,
+      item._id
     );
     cardsContainer.append(newItem);
   });
@@ -277,6 +282,32 @@ function handleCardFormSubmit(evt) {
       });
     });
 }
+
+const openDeletePopup = () => {
+  openModal(deletePopup);
+};
+
+const closeDeletePopup = () => {
+  closeModal(deletePopup);
+};
+
+closeDeleteButton.addEventListener("click", closeDeletePopup);
+
+function deleteThisCard({cardId, deleteButton}) {
+  deleteCard(cardId)
+  .then(() => {
+    const deleteItem = deleteButton.closest(".places__item");
+    deleteItem.remove();
+    closeDeletePopup();
+  });
+}
+
+function handleDeleteForm(evt) {
+  evt.preventDefault();
+  deleteThisCard(getCardForDeletion());
+}
+
+deleteForm.addEventListener("submit", handleDeleteForm);
 
 // Обработчики событий для форм
 profileForm.addEventListener("submit", handleFormProfileSubmit);
