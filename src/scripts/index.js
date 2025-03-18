@@ -5,7 +5,7 @@
 // @todo: Вывести карточки на страницу
 
 import "../pages/index.css";
-import { createCard, like, deleteItem } from "../components/card.js";
+import { createCard, addLikeCard, deleteItem } from "../components/card.js";
 import {
   openModal,
   closeModal,
@@ -81,9 +81,9 @@ const profileAvatarInput = document.querySelector(
 );
 
 // Функция для обновления данных профиля на странице
-const profileData = ({ name, description, avatar }) => {
+const profileData = ({ name, about, avatar }) => {
   profileName.textContent = name;
-  profileDescription.textContent = description;
+  profileDescription.textContent = about;
   profileAvatar.style.backgroundImage = `url(${avatar})`;
 };
 
@@ -130,9 +130,9 @@ Promise.all(requests)
       item.name,
       item.link,
       deleteItem,
-      item.likes,
-      like,
       openImageModal,
+      item.likes,
+      addLikeCard,
       item.owner._id,
       profileInfo._id,
       item._id
@@ -141,8 +141,6 @@ Promise.all(requests)
   });
   
 });
-
-
 
 
 // Функция для открытия попапа редактирования профиля
@@ -188,7 +186,7 @@ function handleFormAvatarSubmit(evt) {
     .then(({ name, about, avatar }) => {
       profileData({
         name,
-        description: about,
+        about,
         avatar,
       });
       closeModal(popupProfileAvatar);
@@ -224,10 +222,11 @@ function handleFormProfileSubmit(evt) {
     name: profileNameInput.value,
     description: profileDescriptionInput.value,
   })
-    .then(({ name, about }) => {
+    .then(({ name, about, avatar }) => {
       profileData({
         name,
-        description: about,
+        about,
+        avatar
       });
       closeModal(popupProfile);
     })
@@ -263,7 +262,7 @@ function handleCardFormSubmit(evt) {
         card.name,
         card.link,
         deleteItem,
-        like,
+        addLikeCard,
         openImageModal,
         card.owner._id,
         profileInfo._id
