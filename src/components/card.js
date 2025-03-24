@@ -11,6 +11,7 @@ function createCard(
   currentId,
   cardId
 ) {
+  console.log(owner);
   const template = document.querySelector("#card-template");
   const templateElement = template.content.cloneNode(true);
 
@@ -35,8 +36,6 @@ function createCard(
   } else {
     deleteButton.remove();
   }
-console.log(owner);
-// console.log(currentId)
 
 
   deleteButton.addEventListener("click", handleDeleteCard);

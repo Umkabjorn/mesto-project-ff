@@ -65,12 +65,15 @@ const cardUrlInput = document.querySelector(".popup__input_type_url");
 
 const profileForm = document.querySelector(".popup__form[name='edit-profile']");
 const profileFormSubmitButton = profileForm.querySelector('.popup__button');
+
 const cardForm = document.querySelector(".popup__form[name='new-place']");
+const profileConfirmButton = document.querySelector('.popup__confirm-button');
 
 const profileAvatar = document.querySelector(".profile__image");
 const profileAvatarForm = document.querySelector(
   ".popup__form[name='edit-avatar']"
 );
+
 const popupProfileAvatar = document.querySelector(".popup_type_edit-avatar");
 const avatarPopupButton = document.querySelector(".profile__image-edit");
 const profileImageFormSubmitButton = profileAvatarForm.querySelector(
@@ -98,6 +101,7 @@ const renderLoading = ({ buttonElement, isLoading }) => {
     buttonElement.disabled = false;
   }
 };
+
 
 let initialCards = {};
 let profileInfo = {};
@@ -132,11 +136,12 @@ Promise.all(requests)
       deleteItem,
       openImageModal,
       item.likes,
-      addLikeCard,
       item.owner._id,
       profileInfo._id,
-      item._id
+      addLikeCard,
+      item._id,
     );
+    createCard
     cardsContainer.append(newItem);
   });
   
@@ -292,14 +297,25 @@ const closeDeletePopup = () => {
 
 closeDeleteButton.addEventListener("click", closeDeletePopup);
 
-function deleteThisCard({cardId, deleteButton}) {
-  deleteCard(cardId)
-  .then(() => {
-    const deleteItem = deleteButton.closest(".places__item");
-    deleteItem.remove();
-    closeDeletePopup();
-  });
+function deleteThisCard({ cardId, deleteButton }) {
+  openModal(deletePopup);
+
+  profileConfirmButton.onclick = () => {
+    deleteButton.disabled = true;
+
+    deleteCard(cardId)
+      .then(() => {
+        const deleteItem = deleteButton.closest(".places__item");
+        deleteItem.remove();
+        closeDeletePopup();
+      })
+      .catch((error) => {
+        console.error("Ошибка при удалении карточки:", error);
+      });
+  };
 }
+
+closeDeleteButton.addEventListener("click", closeDeletePopup);
 
 function handleDeleteForm(evt) {
   evt.preventDefault();

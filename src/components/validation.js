@@ -47,7 +47,7 @@ const isValid = (formElement, inputElement, inputErrorClass, errorClass) => {
   } else {
     hideInputError(formElement, inputElement, errorClass, inputErrorClass);
   }
-};
+}
 
 const toggleButtonState = (inputList, buttonElement, inactiveButtonClass) => {
   if (hasInvalidInput(inputList)) {
@@ -68,6 +68,7 @@ const setEventListeners = (
 ) => {
   const inputList = Array.from(formElement.querySelectorAll(inputSelector));
   const buttonElement = formElement.querySelector(submitButtonSelector);
+
 
   toggleButtonState(
     inputList,
